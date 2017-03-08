@@ -1,0 +1,17 @@
+#!/bin/bash
+
+set -eo pipefail
+
+# Calculate login token from the supplied password.
+
+NOTEBOOK_ARGS=
+
+if [ x"${JUPYTER_NOTEBOOK_PASSWORD}" != x"" ]; then
+    NOTEBOOK_ARGS=--NotebookApp.password=`python -c "import notebook.auth; \
+        print(notebook.auth.passwd(\"$JUPYTER_NOTEBOOK_PASSWORD\"))"`
+    unset JUPYTER_NOTEBOOK_PASSWORD
+fi
+
+# Start the Jupyter notebook instance.
+
+exec /usr/local/bin/start-notebook.sh $NOTEBOOK_ARGS

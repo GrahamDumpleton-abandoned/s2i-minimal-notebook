@@ -1,0 +1,20 @@
+#!/bin/bash
+
+set -eo pipefail
+
+# Copy injected files to correct place in 'work' directory.
+
+cp -Rf /tmp/src/. /home/$NB_USER/work
+
+rm -rf /tmp/src
+
+# Install any Python modules listed in the 'requirements.txt' file. Need
+# to ensure we are in the 'work' directory so relative directory paths
+# resolve okay if installing packages from subdirectories. We remove the
+# 'requirements.txt' file when done in case we are producing an image
+# which will in turn be used as an S2I builder image.
+
+if [ -f /home/$NB_USER/work/requirements.txt ]; then
+    (cd /home/$NB_USER/work && conda install -y --file requirements.txt)
+    rm /home/$NB_USER/work/requirements.txt
+fi
