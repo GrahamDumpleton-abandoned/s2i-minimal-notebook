@@ -2,15 +2,34 @@
 
 set -eo pipefail
 
-# Calculate login token from the supplied password.
-
 NOTEBOOK_ARGS=
+
+# Calculate login token from the supplied password.
 
 if [ x"${JUPYTER_NOTEBOOK_PASSWORD}" != x"" ]; then
     NOTEBOOK_ARGS=--NotebookApp.password=`python -c "import notebook.auth; \
         print(notebook.auth.passwd(\"$JUPYTER_NOTEBOOK_PASSWORD\"))"`
     unset JUPYTER_NOTEBOOK_PASSWORD
 fi
+
+# Copy files into volume if specified and change notebook directory.
+
+JUPYTER_NOTEBOOK_DIR=${JUPYTER_NOTEBOOK_DIR:-/home/$NB_USER/work}
+
+if [ x"${PERSISTENT_VOLUME_ROOTDIR}" != x"" ]; then
+    PERSISTENT_VOLUME_WORKSPACE=${PERSISTENT_VOLUME_WORKSPACE:-work}
+
+    WORKDIR=${PERSISTENT_VOLUME_ROOTDIR}/${PERSISTENT_VOLUME_WORKSPACE}
+
+    if [ ! -d ${WORKDIR} ]; then
+        mkdir -p ${WORKDIR}
+        cp -rp ${JUPYTER_NOTEBOOK_DIR}/. ${WORKDIR}
+    fi
+
+    JUPYTER_NOTEBOOK_DIR=${PERSISTENT_VOLUME_ROOTDIR}
+fi
+
+NOTEBOOK_ARGS="$NOTEBOOK_ARGS --notebook-dir=${JUPYTER_NOTEBOOK_DIR}"
 
 # Start the Jupyter notebook instance.
 
