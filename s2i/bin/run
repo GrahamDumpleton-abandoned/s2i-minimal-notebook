@@ -31,6 +31,8 @@ fi
 
 NOTEBOOK_ARGS="$NOTEBOOK_ARGS --notebook-dir=${JUPYTER_NOTEBOOK_DIR}"
 
+cd ${JUPYTER_NOTEBOOK_DIR}
+
 # Start the Jupyter notebook instance.
 
 exec /usr/local/bin/start-notebook.sh $NOTEBOOK_ARGS
