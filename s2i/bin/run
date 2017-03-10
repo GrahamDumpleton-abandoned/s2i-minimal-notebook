@@ -33,6 +33,18 @@ NOTEBOOK_ARGS="$NOTEBOOK_ARGS --notebook-dir=${JUPYTER_NOTEBOOK_DIR}"
 
 cd ${JUPYTER_NOTEBOOK_DIR}
 
+# Activate Python virtual environment if one exists in the volume.
+
+if [ x"${PERSISTENT_VOLUME_ROOTDIR}" != x"" ]; then
+    PERSISTENT_VOLUME_VIRTUALENV=${PERSISTENT_VOLUME_VIRTUALENV:-venv}
+
+    VENVDIR=${PERSISTENT_VOLUME_ROOTDIR}/${PERSISTENT_VOLUME_VIRTUALENV}
+
+    if [ -f "${VENVDIR}/bin/jupyter" ]; then
+        source activate ${VENVDIR}
+    fi
+fi
+
 # Start the Jupyter notebook instance.
 
 exec /usr/local/bin/start-notebook.sh $NOTEBOOK_ARGS
