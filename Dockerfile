@@ -30,6 +30,10 @@ COPY s2i /opt/app-root/s2i
 
 RUN chgrp -Rf root /home/$NB_USER && chmod -Rf g+w /home/$NB_USER
 
+# Adjust permissions on /etc/passwd so writable by group root.
+
+RUN chmod g+w /etc/passwd
+
 # Revert the user but set it to be an integer user ID else the S2I build
 # process will reject the builder image as can't tell if user name
 # really maps to user ID for root.
