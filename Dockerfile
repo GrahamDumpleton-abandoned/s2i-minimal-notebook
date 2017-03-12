@@ -26,6 +26,10 @@ LABEL io.k8s.description="S2I builder for Jupyter (minimal-notebook)." \
 
 COPY s2i /opt/app-root/s2i
 
+# Adjust permissions on home directory so writable by group root.
+
+RUN chgrp -Rf root /home/$NB_USER && chmod -Rf g+w /home/$NB_USER
+
 # Revert the user but set it to be an integer user ID else the S2I build
 # process will reject the builder image as can't tell if user name
 # really maps to user ID for root.
