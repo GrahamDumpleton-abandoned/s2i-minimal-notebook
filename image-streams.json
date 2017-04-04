@@ -1,0 +1,25 @@
+{
+    "kind": "ImageStream",
+    "apiVersion": "v1",
+    "metadata": {
+        "name": "s2i-minimal-notebook"
+    },
+    "spec": {
+        "tags": [
+            {
+                "name": "latest",
+                "annotations": {
+                    "description": "Build and deploy a custom Jupyter Notebook image with pre-bundled notebooks, data files and Python packages.",
+                    "iconClass": "icon-python",
+                    "sampleRepo": "https://github.com/getwarped/sample-notebooks.git",
+                    "tags": "builder,python,jupyter",
+                    "version": "latest"
+                },
+                "from": {
+                    "kind": "DockerImage",
+                    "name": "getwarped/s2i-minimal-notebook:latest"
+                }
+            }
+        ]
+    }
+}
