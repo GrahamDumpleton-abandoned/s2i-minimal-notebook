@@ -9,7 +9,7 @@ USER root
 # can be used to copy files into the running container.
 
 RUN apt-get update && \
-    apt-get install -y --no-install-recommends libav-tools rsync && \
+    apt-get install -y --no-install-recommends ffmpeg rsync && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
