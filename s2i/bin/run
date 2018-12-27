@@ -54,6 +54,19 @@ if [ x"${PERSISTENT_VOLUME_ROOTDIR}" != x"" ]; then
     fi
 fi
 
+# Output warning against using this image and point to alternatives.
+
+echo "WARNING:"
+echo "WARNING: THIS IMAGE IS NOT SUPPORTED OR MAINTAINED. IT WAS ONLY"
+echo "WARNING: CREATED FOR THE PURPOSES OF ILLUSTRATING CONCEPTS AS"
+echo "WARNING: PART OF A SERIES OF BLOG POSTS. DO NOT USE THIS IMAGE."
+echo "WARNING:"
+echo "WARNING: FOR POINTERS TO ALTERNATIVE JUPYTER NOTEBOOK IMAGES"
+echo "WARNING: YOU CAN USE, SEE:"
+echo "WARNING:"
+echo "WARNING:   * https://github.com/getwarped/s2i-minimal-notebook"
+echo "WARNING:"
+
 # Start the Jupyter notebook instance.
 
 exec /usr/local/bin/start-notebook.sh $NOTEBOOK_ARGS
